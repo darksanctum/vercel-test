@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import '../styles/globals.css';
+
 
 const HomePage = () => {
   useEffect(() => {
