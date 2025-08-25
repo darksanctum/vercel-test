@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
+import '../styles/globals.css';
 
 const HomePage = () => {
   useEffect(() => {
-    // Mercado Pago
-    if (window.MercadoPago) {
-      const mp = new window.MercadoPago('APP_USR-3c94edbb-1634-44f4-b8d5-826ed4c7fa11');
+    // ... (el resto del useEffect se queda igual)
 
       const handleCheckout = async (title, price) => {
         try {
-          const response = await fetch('/api/create-preference', {
+          const response = await fetch('/api', { // <-- CAMBIO AQUÍ
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
