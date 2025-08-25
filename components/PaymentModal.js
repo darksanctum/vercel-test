@@ -76,6 +76,8 @@ const PaymentModal = ({ plan, onClose }) => {
             // USAMOS UN EMAIL DE PRUEBA
             const testEmail = "test_user_123456@testuser.com";
 
+           // ... dentro de la función onSubmit, después de setIsLoading(true) y de obtener los datos del formulario
+
             try {
               const response = await fetch('/api/create-payment', {
                 method: 'POST',
@@ -90,7 +92,7 @@ const PaymentModal = ({ plan, onClose }) => {
                   installments,
                   description: plan.title,
                   payer: {
-                    email: testEmail, // <-- CAMBIO AQUÍ
+                    email,
                     identification: {
                       type: identificationType,
                       number: identificationNumber,
@@ -98,7 +100,6 @@ const PaymentModal = ({ plan, onClose }) => {
                   },
                 }),
               });
-// ... (código posterior igual)
 
               const result = await response.json();
 
@@ -106,13 +107,17 @@ const PaymentModal = ({ plan, onClose }) => {
                 alert('¡Pago exitoso!');
                 onClose();
               } else {
-                alert(`Error en el pago: ${result.error}`);
+                // **CAMBIO CLAVE AQUÍ**
+                // Mostramos el error específico que viene del backend
+                const errorMessage = result.error || 'Error desconocido del servidor.';
+                alert(`Error en el pago: ${errorMessage}`);
               }
             } catch (error) {
-              alert('Ocurrió un error inesperado. Intenta de nuevo.');
+              alert('Ocurrió un error de red o el servidor no respondió. Intenta de nuevo.');
             } finally {
               setIsLoading(false);
             }
+// ...
           },
         },
       });
