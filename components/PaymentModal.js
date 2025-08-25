@@ -57,6 +57,7 @@ const PaymentModal = ({ plan, onClose }) => {
           onFormMounted: error => {
             if (error) return console.warn("Form Mounted handling error: ", error);
           },
+          // ... (código anterior igual)
           onSubmit: async (event) => {
             event.preventDefault();
             setIsLoading(true);
@@ -64,13 +65,16 @@ const PaymentModal = ({ plan, onClose }) => {
             const { 
               paymentMethodId, 
               issuerId, 
-              cardholderEmail: email, 
+              // cardholderEmail: email, // Ignoramos el email del formulario temporalmente
               amount, 
               token, 
               installments,
               identificationNumber,
               identificationType,
             } = cardForm.getCardFormData();
+
+            // USAMOS UN EMAIL DE PRUEBA
+            const testEmail = "test_user_123456@testuser.com";
 
             try {
               const response = await fetch('/api/create-payment', {
@@ -86,7 +90,7 @@ const PaymentModal = ({ plan, onClose }) => {
                   installments,
                   description: plan.title,
                   payer: {
-                    email,
+                    email: testEmail, // <-- CAMBIO AQUÍ
                     identification: {
                       type: identificationType,
                       number: identificationNumber,
@@ -94,6 +98,7 @@ const PaymentModal = ({ plan, onClose }) => {
                   },
                 }),
               });
+// ... (código posterior igual)
 
               const result = await response.json();
 
